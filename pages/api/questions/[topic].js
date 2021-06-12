@@ -3,6 +3,7 @@ export default async (req, res) => {
     const questionRegex = /#### Q/
     const optionRegex = /- \[.+\]/
     const trueOptionRegex = /- \[x\]/
+    const illustratorRegex = /```/
     let questionText
     let questions = []
     let quizes = []
@@ -32,6 +33,8 @@ export default async (req, res) => {
     const textLines = questionText.split('\n').filter(item => item) // since for '' item is falsey it will filter nicely
 
     let same_question = false
+    let illContinue = false
+    let illustrator = []
 
     textLines.forEach((item) => {
         // first lets pickout the questions
@@ -39,8 +42,18 @@ export default async (req, res) => {
             const question = item.substring(9, item.length)
             questions.push(question)
             same_question = false
-            quizes.push({question, options: []})
-        } else if(optionRegex.test(item)) {
+            quizes.push({question, options: [], illustrator: ''})
+            illustrator = []
+        }
+        else if(illustratorRegex.test(item)) {
+            illContinue = !illContinue
+            illustrator.push(item)
+            if(!illContinue) { quizes[quizes.length-1].illustrator = (illustrator.join('\n')) }
+        }
+        else if(illContinue) {
+            illustrator.push(item)
+        }
+        else if(optionRegex.test(item)) {
             // track if the option is for same question or new one
             const correct = trueOptionRegex.test(item)
             if(!same_question) {
@@ -49,9 +62,10 @@ export default async (req, res) => {
                 quizes[quizes.length-1].options.push({text: item.substring(6, item.length), correct})
             }
             same_question = true
+            illustrator = []
         }
     })
 
-    console.log(quizes)
+    console.log(textLines)
     res.status(200).json(quizes)
 }
