@@ -2,10 +2,11 @@ export default async (req, res) => {
     const {topic} = req.query
     let quizText
     let quizes = []
+    let resource_url = `${process.env.source}${topic}.json`
 
-    console.log(`${process.env.source}[${topic}].json`)
+    console.log(resource_url)
     try {
-        await fetch(`${process.env.source}[${topic}].json`)
+        await fetch(resource_url)
             .then(response => response.text() )
             .then(data => (quizText = data))
 
