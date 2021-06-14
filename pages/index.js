@@ -1,12 +1,28 @@
 import Layout from "../components/Layout";
+import {useState, useEffect} from 'react'
+import SkillCard from "../components/SkillCard"
 
 export default function Home() {
-    const angular_link = 'https://skill-assess-api.vercel.app/api/questions/angular'
+    const [skills, setSkills] = useState([])
+
+    useEffect(() => {
+        if (skills.toString() == "") {
+            fetch('/api/questions/')
+                .then(response => response.text())
+                .then(data => {
+                    setSkills(JSON.parse(data))
+                })
+        }
+    })
 
     return (
-    <div>
-        <Layout />
-        <h1>Try visiting <a href={angular_link}>Angular</a> to get the json data.</h1>
-    </div>
-  )
+        <div>
+            <Layout />
+            { (skills.length > 0) ? (<div className={'container'}>
+                <div className={'row'}>
+                    {skills.map((item, index) => (<SkillCard skill={item} key={index}/>))}
+                </div>
+            </div>) : (<h1>SKILLS LOADING</h1>) }
+        </div>
+      )
 }
