@@ -1,5 +1,5 @@
 import Layout from "../../components/Layout";
-import {getAllSkillNames, getSkillQuizes} from "../../lib/skills";
+import {getAllSkillNameParams, getSkillQuizes} from "../../lib/skills";
 import {useState} from "react";
 import QuestionPanel from "../../components/QuestionPanel";
 
@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const skillNames = await getAllSkillNames()
+    const skillNames = await getAllSkillNameParams()
 
     return {
         paths: skillNames,

@@ -1,19 +1,17 @@
 import Layout from "../components/Layout";
 import {useState, useEffect} from 'react'
 import ListOfSkills from "../components/ListOfSkills";
+import {getAllSkillNames} from "../lib/skills";
 
 export default function Home() {
     const [allSkills, setAllSkills] = useState([])
     const [skills, setSkills] = useState([])
 
-    useEffect(() => {
+    useEffect(async () => {
         if (skills.toString() == "") {
-            fetch('/api/questions/')
-                .then(response => response.text())
-                .then(data => {
-                    setSkills(JSON.parse(data))
-                    setAllSkills(JSON.parse(data))
-                })
+            const skillNames = await getAllSkillNames()
+            setSkills(skillNames)
+            setAllSkills(skillNames)
         }
     })
 
