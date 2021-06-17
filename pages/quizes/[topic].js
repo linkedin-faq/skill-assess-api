@@ -24,7 +24,7 @@ export default function ({topic, skillQuizes}) {
     )
 }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
     const skillQuizes = await getSkillQuizes(params.topic)
     return {
         props: {
@@ -34,11 +34,12 @@ export async function getStaticProps({ params }) {
     }
 }
 
-export async function getStaticPaths() {
-    const skillNames = await getAllSkillNameParams()
-
-    return {
-        paths: skillNames,
-        fallback: false
-    }
-}
+// export async function getStaticPaths() {
+//     const skillNames = await getAllSkillNameParams()
+//     console.log(skillNames)
+//
+//     return {
+//         paths: skillNames,
+//         fallback: false
+//     }
+// }
