@@ -18,7 +18,6 @@ export default function QuestionPanel(question) {
     }
 
     const answer = (e) => {
-        console.log("CLicked", e.target.textContent)
         if(answerPresent) {
             if (e.target.textContent == correctAnswer) {
                 e.target.setAttribute('class', 'btn btn-success ' + basicClass)
