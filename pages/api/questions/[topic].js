@@ -11,7 +11,7 @@ export default async (req, res) => {
     const {topic} = req.query
     let quizText
     let quizes = []
-    let resource_url = `${process.env.source}${topic}.json`
+    let resource_url = `${process.env.source}${encodeURIComponent(topic)}.json`
 
     try {
         await fetch(resource_url)
@@ -28,8 +28,6 @@ export default async (req, res) => {
     //      options: {optionA: {text, correct: false}, .... optionX: {text, correct: true}}}....]
     // false being the wrong answers and true being the right
 
-    // console.log(quizText)
     quizes = JSON.parse(quizText)
-    // console.log(quizes)
     res.status(200).json(quizes)
 }
