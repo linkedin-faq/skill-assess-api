@@ -1,12 +1,47 @@
 import Layout from "../components/Layout";
+import {useState, useEffect} from 'react'
+import ListOfSkills from "../components/ListOfSkills";
+import {getAllSkillNames} from "../lib/skills";
 
 export default function Home() {
-    const angular_link = 'https://skill-assess-api.vercel.app/api/questions/angular'
+    const [allSkills, setAllSkills] = useState([])
+    const [skills, setSkills] = useState([])
+
+    useEffect(async () => {
+        if (skills.toString() == "") {
+            const skillNames = await getAllSkillNames()
+            setSkills(skillNames)
+            setAllSkills(skillNames)
+        }
+    })
+
+    const search = (e) => {
+        const filter = e.target.value
+        const filterRegExp = new RegExp(`${filter}`, 'i')
+        const skills = allSkills.filter((item) => item.match(filterRegExp))
+        setSkills(skills)
+    }
 
     return (
-    <div>
-        <Layout />
-        <h1>Try visiting <a href={angular_link}>Angular</a> to get the json data.</h1>
-    </div>
-  )
+        <div>
+            <Layout />
+            <div className={'container'}>
+                <form className="form-inline my-3 my-lg-0">
+                    <input
+                        className="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        onKeyUp={(e) => search(e)}
+                    />
+                </form>
+
+                { (skills.length > 0) ? (<div className={'container'}>
+
+                    <ListOfSkills skills={skills}/>
+                </div>) : (<h1>SKILLS LOADING</h1>) }
+            </div>
+
+        </div>
+      )
 }
