@@ -10,7 +10,7 @@ export default function () {
             </Head>
 
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand" href="/">Navbar</a>
+                <a className="navbar-brand ms-3" href="/">HOME</a>
             </nav>
         </>
         )
