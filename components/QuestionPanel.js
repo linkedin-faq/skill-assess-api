@@ -1,9 +1,21 @@
 import {useEffect, useState} from "react";
+import Parser from 'html-react-parser';
+let remark = require('remark')
+let recommended = require('remark-preset-lint-recommended')
+let html = require('remark-html')
 
 export default function QuestionPanel(question) {
+    let illustrator
     const basicClass = 'input-block-level form-control my-2'
     const [answerPresent, setAnswerPresent] = useState(false)
     const [correctAnswer, setCorrectAnswer] = useState('')
+
+    remark()
+        .use(recommended)
+        .use(html)
+        .process(question.question.illustrator, (e, file) => {
+            illustrator = String(file)
+        })
 
     useEffect(() => {
         setCorrectAnswer(checkOptions())
@@ -35,6 +47,13 @@ export default function QuestionPanel(question) {
                     <div className="card-body">
                         <p className="card-text">{question.question.question}</p>
                         <hr/>
+                        {
+                            question.question.illustrator ? (
+                                <pre>{Parser(illustrator)}</pre>
+                            ) : (
+                                ''
+                            )
+                        }
                         {
                             question.question.options.map((item, index) => {
                                 return (
