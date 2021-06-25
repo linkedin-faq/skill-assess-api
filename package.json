@@ -11,6 +11,7 @@
     "bootstrap": "^5.0.0-beta3",
     "html-react-parser": "^1.2.6",
     "next": "10.2.3",
+    "next-auth": "^3.27.0",
     "nextjs-cors": "^1.0.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",

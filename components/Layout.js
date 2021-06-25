@@ -1,6 +1,10 @@
 import Head from 'next/head'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
 export default function () {
+    const [ session, loading ] = useSession()
+
+    if (session) console.log(session.user)
     return (
         <>
             <Head>
@@ -11,6 +15,14 @@ export default function () {
 
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand ms-3" href="/">HOME</a>
+
+                {!session && <div className={'ms-auto'}>
+                    <button onClick={() => signIn()} className={'btn btn-primary'}>Sign in</button>
+                </div>}
+                {session && <>
+                    Signed in as {session.user.email || session.user.name} <br/>
+                    <button onClick={() => signOut()} className={'btn btn-danger'}>Sign out</button>
+                </>}
             </nav>
         </>
         )
