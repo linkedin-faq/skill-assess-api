@@ -6,6 +6,7 @@ import {getAllSkillNames} from "../lib/skills";
 export default function Home() {
     const [allSkills, setAllSkills] = useState([])
     const [skills, setSkills] = useState([])
+    const [randomQuestion, setRandomQuestion] = useState(false)
 
     useEffect(async () => {
         if (skills.toString() == "") {
@@ -22,9 +23,14 @@ export default function Home() {
         setSkills(skills)
     }
 
+    const toggleRandomQuestion = () => {
+        setRandomQuestion(!randomQuestion)
+        console.log("triggerd", randomQuestion)
+    }
+
     return (
         <div>
-            <Layout />
+            <Layout toggleRandomQuestion={toggleRandomQuestion}/>
             <div className={'container'}>
                 <form className="form-inline my-3 my-lg-0">
                     <input

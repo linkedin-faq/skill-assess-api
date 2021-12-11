@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
-export default function () {
+export default function (props) {
+    const toggleRandomQuestion = props.toggleRandomQuestion
     return (
         <>
             <Head>
@@ -11,6 +12,20 @@ export default function () {
 
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand ms-3" href="/">HOME</a>
+
+                <div className="ms-auto me-3">
+                    <div className="form-check form-switch">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="answerOnly"
+                            onChange={() => toggleRandomQuestion()}
+                        />
+                        <label className="ms-3 form-check-label" htmlFor="flexSwitchCheckDefault">
+                            Random questions only
+                        </label>
+                    </div>
+                </div>
             </nav>
         </>
         )
