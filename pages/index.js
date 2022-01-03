@@ -28,7 +28,7 @@ export default function Home() {
             <div className={'container'}>
                 <form className="form-inline my-3 my-lg-0">
                     <input
-                        className="form-control mr-sm-2"
+                        className="form-control mr-sm-2 mt-2"
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
