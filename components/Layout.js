@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function () {
+export default function layout() {
     return (
         <>
             <Head>
