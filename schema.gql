@@ -1,0 +1,21 @@
+type User {
+	email: String! @unique
+	tests: [Test!] @relation
+}
+
+type Test {
+	asks: [Question!] @relation
+	owner: User!
+}
+
+type Question {
+	question: String!
+	answers: [Answer!] @relation
+	asked_by: [Test!] @relation 
+}
+
+type Answer {
+	answer: String!
+	correct: Boolean!
+	owner: Question!
+}
