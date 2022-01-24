@@ -3,12 +3,20 @@ import {getQuizesWithAnswer, getSkillQuizes} from "../../lib/skills";
 import {useEffect, useState} from "react";
 import QuestionPanel from "../../components/QuestionPanel";
 
-export default function ({topic, skillQuizes}) {
-    const [questions, setQuestions] = useState(skillQuizes)
+export default function Quiz({topic}) {
+    const [questions, setQuestions] = useState([])
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [questionNo, setQuestionNo] = useState(0)
     const [answerOnly, setAnswerOnly] = useState(false)
 
+    useEffect(() => {
+        const fetchQuizzes = async () => {
+            const response = await getSkillQuizes(topic)
+            setQuestions(response)
+        }
+        fetchQuizzes()
+    }, [])
+    
     const nextQuestion = (e) => {
         e.preventDefault()
         setCurrentQuestion(parseInt(currentQuestion) + 1)
@@ -91,8 +99,7 @@ export async function getServerSideProps({ params }) {
     const skillQuizes = await getSkillQuizes(params.topic)
     return {
         props: {
-            topic: params.topic,
-            skillQuizes: (skillQuizes)
+            topic: params.topic
         }
     }
 }
