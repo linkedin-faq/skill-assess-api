@@ -8,8 +8,10 @@ export default function ({topic, skillQuizes}) {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [questionNo, setQuestionNo] = useState(0)
     const [answerOnly, setAnswerOnly] = useState(false)
+    const [answered, setAnswered] = useState(false)
 
     const nextQuestion = (e) => {
+        setAnswered(false)
         e.preventDefault()
         setCurrentQuestion(parseInt(currentQuestion) + 1)
         setQuestionNo(parseInt(currentQuestion) + 1)

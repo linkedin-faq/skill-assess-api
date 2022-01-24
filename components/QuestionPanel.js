@@ -6,10 +6,12 @@ let html = require('remark-html')
 
 export default function QuestionPanel(question) {
     let illustrator
-    const basicClass = 'input-block-level form-control my-2'
+    const basicClass = 'btn btn-outline-primary input-block-level form-control my-2'
     const [answerPresent, setAnswerPresent] = useState(false)
     const [correctAnswer, setCorrectAnswer] = useState('')
+    const [answered, setAnswered] = useState(false)
 
+    // using this to beautify the code in question
     remark()
         .use(recommended)
         .use(html)
@@ -30,12 +32,15 @@ export default function QuestionPanel(question) {
     }
 
     const answer = (e) => {
+        setAnswered(true)
         if(answerPresent) {
             if (e.target.textContent == correctAnswer) {
                 e.target.setAttribute('class', 'btn btn-success ' + basicClass)
             } else {
                 e.target.setAttribute('class', 'btn btn-danger ' + basicClass)
             }
+
+
         } else {
             alert('Sorry we dont know the answer either, please research to verify')
         }
@@ -58,7 +63,8 @@ export default function QuestionPanel(question) {
                             question.question.options.map((item, index) => {
                                 return (
                                     <button
-                                        className={'btn btn-outline-primary ' + basicClass}
+                                        disabled={answered}
+                                        className={ basicClass }
                                         key={index}
                                         onClick={(e) => answer(e)}
                                     >
