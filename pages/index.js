@@ -1,19 +1,13 @@
 import Layout from "../components/Layout";
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import ListOfSkills from "../components/ListOfSkills";
 import {getAllSkillNames} from "../lib/skills";
 
-export default function Home() {
-    const [allSkills, setAllSkills] = useState([])
-    const [skills, setSkills] = useState([])
+export default function Home(props) {
+    const { skillNames } = props;
+    const [allSkills] = useState(skillNames);
+    const [skills, setSkills] = useState(skillNames)
 
-    useEffect(async () => {
-        if (skills.toString() == "") {
-            const skillNames = await getAllSkillNames()
-            setSkills(skillNames)
-            setAllSkills(skillNames)
-        }
-    })
 
     const search = (e) => {
         const filter = e.target.value
@@ -45,3 +39,15 @@ export default function Home() {
         </div>
       )
 }
+
+
+
+export async function getServerSideProps() {
+
+    const skillNames = await getAllSkillNames()
+  
+    return {
+      props: { skillNames },
+    };
+  }
+  
