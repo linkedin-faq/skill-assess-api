@@ -1,0 +1,29 @@
+type User {
+	email: String! @unique
+	tests: [Test!] @relation
+}
+
+type Test {
+	topic: String!
+	asks: [Question!] @relation
+	owner: User!
+}
+
+type Question {
+	topic: String!
+	question: String!
+	illustrator: String!
+	answers: [Answer!] @relation
+	asked: [Test!] @relation 
+}
+
+type Answer {
+	answer: String!
+	correct: Boolean!
+	owner: Question!
+}
+
+type Skill{
+	skill_name: String! @unique
+	populated: Boolean!
+}
