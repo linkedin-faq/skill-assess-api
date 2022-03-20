@@ -20,11 +20,12 @@ export default function SkillCard(skill, key) {
 
 		// generate Test with candidate GuestUser
 		const query = gql`
-			mutation CreateATest($skill: String!, $question_refs: [ID!]) {
+			mutation CreateATest($skill: String!, $question_refs: [ID!], $candidate: ID!) {
 				createTest(
 				    data: {
 				      topic: $skill,
 				      asks: { connect: $question_refs },
+					  candidate: { connect: $candidate }
 				    }
 				  ) {
 				    _id
@@ -32,7 +33,7 @@ export default function SkillCard(skill, key) {
 			}
 		`;
 
-		const test = await graphQLClient(cookie.authToken).request(query, { skill: sanitized(skill.skill), question_refs: question_ids })
+		const test = await graphQLClient(cookie.authToken).request(query, { skill: sanitized(skill.skill), question_refs: question_ids, candidate: cookie.guestUserId })
 	}
 
     return (

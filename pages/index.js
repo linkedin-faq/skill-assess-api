@@ -40,6 +40,7 @@ export default function Home(props) {
                     console.log(error)
                 }
             } else {
+                // [TODO]: following code needs to execute even if guest User is freshly created
                 // then we have token to access the guest User
                 try {
                     // make request to faunadb to get the guest user ref
