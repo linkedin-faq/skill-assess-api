@@ -2,18 +2,18 @@ import Layout from "../components/Layout";
 import { useState, useEffect } from 'react'
 import ListOfSkills from "../components/ListOfSkills";
 import {getAllSkillNames} from "../lib/skills";
-import faunadb, {query as q} from 'faunadb';
+import {query as q} from 'faunadb';
 import { useCookies } from "react-cookie";
-
-const client = new faunadb.Client({secret: process.env.NEXT_PUBLIC_FAUNA_GUEST_SECRET})
+import { client } from '../lib/client';
 
 // get all methods with spread operator
-const { Let, Select, Create, Collection, Tokens, Var, Update } = q
+const { Let, Select, Create, Collection, Tokens, Var, Update, Paginate, Match, Index } = q
 
 export default function Home(props) {
     const { skillNames } = props;
     const [allSkills] = useState(skillNames);
     const [skills, setSkills] = useState(skillNames)
+    const [guestUserId, setGuestUserId] = useState('')
 
     const [cookie, setCookie, removeCookie] = useCookies(["guetUserToken"])
 
@@ -39,7 +39,28 @@ export default function Home(props) {
                 } catch(error) {
                     console.log(error)
                 }
-        }
+            } else {
+                // then we have token to access the guest User
+                try {
+                    // make request to faunadb to get the guest user ref
+                    const response = await client.query(
+                        Select("data",
+                            Paginate(
+                                Match(
+                                        Index("guest_user_by_token"),
+                                        cookie.guestUserToken
+                                    )
+                                )
+                            )
+                    )
+
+                    console.log(response[0].id)
+                    setGuestUserId(response[0].id)
+                    setCookie("guestUserId", response[0].id)
+                } catch(error) {
+                    console.log(error)
+                }
+            }
     }, [])
 
 

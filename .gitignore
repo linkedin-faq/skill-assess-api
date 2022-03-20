@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# we will ignore schema.gql
+schema.gql
