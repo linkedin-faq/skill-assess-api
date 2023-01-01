@@ -25,7 +25,8 @@ export default function SkillCard(skill, key) {
 				    data: {
 				      topic: $skill,
 				      asks: { connect: $question_refs },
-					  candidate: { connect: $candidate }
+					  candidate: { connect: $candidate },
+					  submitted: false
 				    }
 				  ) {
 				    _id
